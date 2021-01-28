@@ -1,0 +1,32 @@
+{
+    "name": "markdown-it-toc-desc",
+    "version": "1.1.0",
+    "main": "index.js",
+    "license": "MIT",
+    "author": {
+        "name": "kyaruary",
+        "email": "kyaruary@gmail.com"
+    },
+    "keywords": [
+        "markdown-it",
+        "markdown-it-plugin",
+        "markdown-it-table-of-content-descriptor"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "test": "mocha -r ts-node/register index.test.ts"
+    },
+    "devDependencies": {
+        "@types/markdown-it": "^12.0.1",
+        "@types/mocha": "^8.2.0",
+        "@types/node": "^14.14.22",
+        "cz-conventional-changelog": "^3.3.0",
+        "markdown-it": "^12.0.4",
+        "typescript": "^4.1.3"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
+}
