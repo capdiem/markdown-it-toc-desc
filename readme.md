@@ -33,6 +33,7 @@ const options: MarkdownTocDescOption = {
 md.use(MarkdownItTocDesc, options);
 md.render(article);
 // then you will get the toc desc in headings
+console.log(headings);
 ```
 
 # Heading
@@ -43,10 +44,9 @@ here the properties:
 
 | key      | type               |
 | -------- | ------------------ |
-| level    | number             |
+| link     | string             |
 | content  | string             |
 | children | Array of `Heading` |
-| parent   | Heading or null    |
 
 # MarkdownTocDescOption
 

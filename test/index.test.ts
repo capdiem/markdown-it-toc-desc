@@ -1,4 +1,4 @@
-import MarkdownItTocDesc, { Heading, MarkdownTocDescOption } from "./index";
+import MarkdownItTocDesc, { Heading, MarkdownTocDescOption } from "../lib/index";
 import Markdown from "markdown-it";
 import assert from "assert";
 
@@ -18,11 +18,21 @@ ppp
 `;
 
 describe("get article toc", () => {
+    function slugify(hash: string) {
+        return encodeURIComponent(
+            hash
+                .trim()
+                .toLowerCase()
+                .replace(/ /g, "-")
+                .replace(/[　`~!@#$%^&*()=+\[{\]}\\|;:'",<.>/?·～！¥…（）—【「】」、；：‘“’”，《。》？]/g, "")
+                .replace(/[\uff00-\uffff]/g, "")
+        );
+    }
     const md = new Markdown();
     let headings: Heading[] = [];
     const options: MarkdownTocDescOption = {
         includeLevel: [1, 2, 3, 4, 5, 6],
-        slugify: (s) => s,
+        slugify,
         getTocTree: (tree) => (headings = tree),
     };
     md.use(MarkdownItTocDesc, options);
@@ -42,7 +52,6 @@ describe("get article toc", () => {
         it("the third should be h3 & content is 1-3 & no more child", () => {
             const h = headings[0].children[0].children[0];
             assert.strictEqual(h.content, "1-3");
-            assert.strictEqual(h.level, 3);
             assert.strictEqual(h.children.length, 0);
         });
     });
@@ -69,6 +78,13 @@ describe("get article toc", () => {
         });
         it("has no child", () => {
             assert.strictEqual(0, headings[2].children.length);
+        });
+    });
+
+    describe("content slugify & link", () => {
+        it("the link of #first h1 should be #first-h1", () => {
+            assert.strictEqual("#first-h1", headings[0].link);
+            assert.strictEqual("#" + slugify(headings[0].content), headings[0].link);
         });
     });
 });

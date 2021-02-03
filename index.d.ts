@@ -2,12 +2,11 @@ import Markdown from "markdown-it";
 export interface MarkdownTocDescOption {
     includeLevel: number[];
     getTocTree: (tree: Heading[]) => void;
-    slugify: (hash: string) => void;
+    slugify: (hash: string) => string;
 }
-export interface Heading {
-    level: number;
+export declare type Heading = {
     children: Heading[];
     content: string;
-    parent: null | Heading;
-}
+    link: string;
+};
 export default function MarkdownItTocDesc(md: Markdown, o: MarkdownTocDescOption): void;

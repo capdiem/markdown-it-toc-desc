@@ -1,20 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function findHeadings(tokens, includeLevel) {
+function findHeadings(tokens, option) {
     var _a;
     var headings = [];
     var size = tokens.length;
+    var slugify = typeof option.slugify === "function" ? option.slugify : function (s) { return s; };
     var index = 0;
     while (index < size) {
         var token = tokens[index];
         var level = (_a = +token.tag.substr(1, 1)) !== null && _a !== void 0 ? _a : -1;
-        if (token.type === "heading_open" && includeLevel.indexOf(level) !== -1) {
+        if (token.type === "heading_open" && option.includeLevel.indexOf(level) !== -1) {
             var content = tokens[index + 1].content;
             var h = {
                 level: level,
                 content: content,
                 parent: null,
                 children: [],
+                link: "#" + slugify(content),
             };
             headings.push(h);
             index += 3;
@@ -58,11 +60,19 @@ function flat2Tree(headings) {
     }
     return root;
 }
+function removeUselessProperties(hsd) {
+    for (var i = 0; i < hsd.length; i++) {
+        delete hsd[i].parent;
+        delete hsd[i].level;
+        removeUselessProperties(hsd[i].children);
+    }
+}
 function MarkdownItTocDesc(md, o) {
     md.core.ruler.push("toc_desc", function (state) {
         var _a;
-        var headings = findHeadings(state.tokens, o.includeLevel);
+        var headings = findHeadings(state.tokens, o);
         var tree = flat2Tree(headings);
+        removeUselessProperties(tree);
         (_a = o === null || o === void 0 ? void 0 : o.getTocTree) === null || _a === void 0 ? void 0 : _a.call(o, tree);
         return true;
     });
