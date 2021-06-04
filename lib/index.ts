@@ -25,11 +25,12 @@ function findHeadings(tokens: Token[], option: MarkdownTocDescOption) {
     const headings: HeadingDev[] = [];
     const size = tokens.length;
     const slugify = typeof option.slugify === "function" ? option.slugify : (s: string) => s;
+    const includeLevel = option.includeLevel || [1,2,3,4];
     let index = 0;
     while (index < size) {
         const token = tokens[index];
-        const level = +token.tag.substr(1, 1) ?? -1;
-        if (token.type === "heading_open" && option.includeLevel.indexOf(level) !== -1) {
+        const level = +token?.tag?.substr?.(1, 1) ?? -1;
+        if (token.type === "heading_open" && includeLevel.indexOf(level) !== -1) {
             const content = tokens[index + 1].content;
             const h: HeadingDev = {
                 level,

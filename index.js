@@ -1,15 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function findHeadings(tokens, option) {
-    var _a;
+    var _a, _b, _c;
     var headings = [];
     var size = tokens.length;
     var slugify = typeof option.slugify === "function" ? option.slugify : function (s) { return s; };
+    var includeLevel = option.includeLevel || [1, 2, 3, 4];
     var index = 0;
     while (index < size) {
         var token = tokens[index];
-        var level = (_a = +token.tag.substr(1, 1)) !== null && _a !== void 0 ? _a : -1;
-        if (token.type === "heading_open" && option.includeLevel.indexOf(level) !== -1) {
+        var level = (_c = +((_b = (_a = token === null || token === void 0 ? void 0 : token.tag) === null || _a === void 0 ? void 0 : _a.substr) === null || _b === void 0 ? void 0 : _b.call(_a, 1, 1))) !== null && _c !== void 0 ? _c : -1;
+        if (token.type === "heading_open" && includeLevel.indexOf(level) !== -1) {
             var content = tokens[index + 1].content;
             var h = {
                 level: level,
