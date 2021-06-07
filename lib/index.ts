@@ -87,7 +87,7 @@ function removeUselessProperties(hsd: HeadingDev[]) {
     }
 }
 
-export default function MarkdownItTocDesc(md: Markdown, o: MarkdownTocDescOption) {
+export function MarkdownItTocDesc(md: Markdown, o: MarkdownTocDescOption) {
     md.core.ruler.push("toc_desc", (state) => {
         const headings = findHeadings(state.tokens, o);
         const tree = flat2Tree(headings);
@@ -96,3 +96,6 @@ export default function MarkdownItTocDesc(md: Markdown, o: MarkdownTocDescOption
         return true;
     });
 }
+
+
+export default MarkdownItTocDesc

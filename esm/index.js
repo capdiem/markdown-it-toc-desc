@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MarkdownItTocDesc = void 0;
 function findHeadings(tokens, option) {
     var _a, _b, _c;
     var headings = [];
@@ -69,7 +66,7 @@ function removeUselessProperties(hsd) {
         removeUselessProperties(hsd[i].children);
     }
 }
-function MarkdownItTocDesc(md, o) {
+export function MarkdownItTocDesc(md, o) {
     md.core.ruler.push("toc_desc", function (state) {
         var _a;
         var headings = findHeadings(state.tokens, o);
@@ -79,5 +76,4 @@ function MarkdownItTocDesc(md, o) {
         return true;
     });
 }
-exports.MarkdownItTocDesc = MarkdownItTocDesc;
-exports.default = MarkdownItTocDesc;
+export default MarkdownItTocDesc;
