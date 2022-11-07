@@ -51,9 +51,13 @@ function findHeadings(tokens: Token[], option: MarkdownTocDescOption) {
 function flat2Tree(headings: HeadingDev[]) {
     let current: HeadingDev | null = null;
     const root: HeadingDev[] = [];
+    let topLevel = 1;
+    if (headings[0]) {
+        topLevel = headings[0].level
+    }
     for (let i = 0; i < headings.length; i++) {
         const h = headings[i];
-        if (h.level === 1) {
+        if (h.level === topLevel) {
             root.push(h);
             current = null;
         }
